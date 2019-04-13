@@ -17,18 +17,12 @@ public class Application {
 
 	@PostConstruct
 	public void xxx() {
-        Father c1 = new Child1();
-        Father c2 = new Child2();
+        ResourceLock lock = new ResourceLock();
+        Child1 c1 = new Child1(lock);
+        Child2 c2 = new Child2(lock);
 
-        ExecutorService executor = Executors.newFixedThreadPool(2);
-        executor.submit(c1);
-        executor.submit(c2);
-        executor.shutdown();
-        try {
-            executor.awaitTermination(10, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        c1.start();
+        c2.start();
     }
 
 }
